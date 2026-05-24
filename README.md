@@ -1,3 +1,17 @@
+---
+title: AIPI540 Sortsnap
+emoji: camera
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8501
+tags:
+- streamlit
+pinned: false
+short_description: Machine Vision app that detects if trash if recyclable
+license: apache-2.0
+---
+
 # SortSnap
 
 **See it. Classify it. Sort it.**

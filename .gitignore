@@ -4,8 +4,6 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 .venv/
-venv/
-env/
 .env
 
 data/raw/
@@ -13,10 +11,7 @@ data/processed/
 outputs/
 feedback.csv
 
-*.pth
-*.pt
-*.ckpt
-*.onnx
+#*.pth
 
 .DS_Store
 Thumbs.db
