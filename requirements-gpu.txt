@@ -1,0 +1,11 @@
+# to enable GPU support
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.7.0+cu128
+torchvision==0.22.0+cu128
+
+streamlit
+pillow
+numpy
+pandas
+matplotlib
+scikit-learn

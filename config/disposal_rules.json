@@ -1,0 +1,34 @@
+{
+  "cardboard": {
+    "decision": "Recycle",
+    "explanation": "Recycle if clean and dry."
+  },
+  "paper": {
+    "decision": "Recycle",
+    "explanation": "Recycle if clean and dry."
+  },
+  "plastic_bottle": {
+    "decision": "Recycle",
+    "explanation": "Recycle if empty; cap rules vary locally."
+  },
+  "plastic_wrap": {
+    "decision": "Special drop-off",
+    "explanation": "Usually not curbside recyclable; use store drop-off where available."
+  },
+  "metal_can": {
+    "decision": "Recycle",
+    "explanation": "Recycle if empty."
+  },
+  "glass_bottle": {
+    "decision": "Recycle",
+    "explanation": "Recycle if clean and dry."
+  },
+  "food_waste": {
+    "decision": "Compost",
+    "explanation": "Compost where service or home composting is available."
+  },
+  "other_trash": {
+    "decision": "Trash",
+    "explanation": "Place in trash unless local guidance says otherwise."
+  }
+}
