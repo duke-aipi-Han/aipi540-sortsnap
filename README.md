@@ -3,8 +3,9 @@ title: AIPI540 Sortsnap
 emoji: 📸
 colorFrom: blue
 colorTo: green
-sdk: docker
-app_port: 8501
+sdk: streamlit
+sdk_version: 1.57.0
+app_file: app.py
 tags:
 - streamlit
 pinned: false
