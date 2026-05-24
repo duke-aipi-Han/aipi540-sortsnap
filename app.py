@@ -1,4 +1,3 @@
-from io import BytesIO
 from pathlib import Path
 
 import streamlit as st
@@ -90,28 +89,19 @@ def main() -> None:
     image_caption = "Uploaded image"
 
     if image_source == "Upload image":
-        st.session_state.pop("captured_photo_bytes", None)
         image_file = st.file_uploader(
             "Upload a photo of one household waste item",
             type=["jpg", "jpeg", "png", "webp"],
         )
     else:
         image_caption = "Captured image"
-        captured_photo = st.session_state.get("captured_photo_bytes")
-
-        if captured_photo is None:
-            camera_file = st.camera_input(
-                "Take a photo of one household waste item",
-                help=(
-                    "On a mobile browser, this uses the phone camera when camera "
-                    "permissions are allowed. HTTPS is usually required after deployment."
-                ),
-            )
-            if camera_file is not None:
-                st.session_state["captured_photo_bytes"] = camera_file.getvalue()
-                st.rerun()
-        else:
-            image_file = BytesIO(captured_photo)
+        image_file = st.camera_input(
+            "Take a photo of one household waste item",
+            help=(
+                "On a mobile browser, this uses the phone camera when camera "
+                "permissions are allowed. HTTPS is usually required after deployment."
+            ),
+        )
 
     if image_file is None:
         st.info("Upload an image or take a photo to classify a household waste item.")
@@ -125,10 +115,6 @@ def main() -> None:
 
     annotated_image, prediction, recommendation = analyze_image(image)
     st.image(annotated_image, caption=image_caption)
-
-    if image_source == "Take photo" and st.button("Retake photo"):
-        st.session_state.pop("captured_photo_bytes", None)
-        st.rerun()
 
     st.caption(
         f"{recommendation['explanation']} {recommendation['local_rules_note']} "
