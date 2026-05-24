@@ -1,6 +1,6 @@
 ---
 title: AIPI540 Sortsnap
-emoji: camera
+emoji: 📸
 colorFrom: blue
 colorTo: green
 sdk: docker
