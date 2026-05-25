@@ -1,5 +1,6 @@
 import torch
 
+# helper functions for managing PyTorch devices (CUDA vs CPU)
 
 def resolve_device(device_choice: str = "auto", require_cuda: bool = False) -> torch.device:
     cuda_available = torch.cuda.is_available()
@@ -13,8 +14,8 @@ def resolve_device(device_choice: str = "auto", require_cuda: bool = False) -> t
     if device_choice == "cuda":
         if not cuda_available:
             raise RuntimeError(
-                "CUDA was requested but PyTorch cannot access it. Use --device cpu "
-                "or install a CUDA-enabled PyTorch build."
+                "CUDA was requested but PyTorch cannot access it. Install a "
+                "CUDA-enabled PyTorch build or use automatic CPU fallback."
             )
         return torch.device("cuda")
 
