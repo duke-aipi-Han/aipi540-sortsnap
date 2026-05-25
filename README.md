@@ -105,42 +105,60 @@ data/processed/
   train/
     cardboard/
     paper/
-    plastic/
-    metal/
-    glass/
-    trash/
+    plastic_bottle/
+    plastic_wrap/
+    metal_can/
+    glass_bottle/
+    food_waste/
+    other_trash/
   val/
     cardboard/
     paper/
-    plastic/
-    metal/
-    glass/
-    trash/
+    plastic_bottle/
+    plastic_wrap/
+    metal_can/
+    glass_bottle/
+    food_waste/
+    other_trash/
   test/
     cardboard/
     paper/
-    plastic/
-    metal/
-    glass/
-    trash/
+    plastic_bottle/
+    plastic_wrap/
+    metal_can/
+    glass_bottle/
+    food_waste/
+    other_trash/
+```
+
+Prepare the selected Kaggle dataset:
+
+```bash
+python training/prepare_kaggle_dataset.py --force
+```
+
+First download `alistairking/recyclable-and-household-waste-classification`
+from Kaggle manually and place it at `data/raw/archive.zip`. The prep script
+unzips it if needed, maps its 30 item-level folders into SortSnap's 8
+disposal-rule classes, and writes `data/processed/` plus metadata files.
+Existing extracted raw data is reused automatically.
+
+For a realistic holdout split, reserve Kaggle's `real_world` images for test:
+
+```bash
+python training/prepare_kaggle_dataset.py --real_world_test --force
 ```
 
 Train a ResNet18 transfer-learning model:
 
 ```bash
-python training/train.py --data_dir data/processed --epochs 5 --batch_size 32 --lr 0.001 --freeze_backbone
-```
-
-Prefer local CUDA training and fail fast if PyTorch cannot access the GPU:
-
-```bash
-python training/train.py --data_dir data/processed --epochs 5 --batch_size 32 --lr 0.001 --freeze_backbone --device cuda --require_cuda
+python training/train.py --epochs 8 --batch_size 32 --lr 0.0001
 ```
 
 Evaluate clean and stress-test performance:
 
 ```bash
-python training/evaluate.py --data_dir data/processed --split test
+python training/evaluate.py
 ```
 
 Check PyTorch CUDA access:
@@ -154,6 +172,8 @@ The training script saves:
 ```text
 models/resnet18_waste_classifier.pth
 models/class_names.json
+outputs/training_output.txt
+outputs/training_results.json
 ```
 
 The evaluation script writes summary artifacts to `outputs/`.
