@@ -25,11 +25,12 @@ The app lets a user take/upload a photo of a household waste item, classifies th
 As recycling rules vary by city, county, item condition, and collection program, SortSnap separates the system into two layers:
 
 1. **Vision classifier:** predicts a visual/material category such as `cardboard`, `paper`, `plastic_bottle`, `metal_can`, or `food_waste`.
-2. **Rules engine:** maps that category to a disposal recommendation using rules.
+2. **Rules engine:** maps that category to a disposal recommendation using configurable rules.
 
 ## Why Robustness Matters
 
-For real household use, robustness matters more than raw benchmark accuracy. User photos may have poor lighting, cluttered backgrounds, motion blur, odd angles, partial objects, shadows, or confusing packaging. The project includes realistic augmentation and a evaluation path so we can show whether a model stays stable under messy real-world conditions.
+For real household use, robustness matters more than raw benchmark accuracy. User photos may have poor lighting, cluttered backgrounds, motion blur, odd angles, partial objects, shadows, or confusing packaging.
+The project includes realistic augmentation and a evaluation path so we can show whether a model stays stable under messy real-world conditions.
 
 ## Project Architecture
 This app has 2 components:
@@ -70,8 +71,10 @@ aipi540-sortsnap/
 ## Local Setup
 
 Use Python 3.13
+
 ```bash
 pip install -r requirements.txt
+# or pip install -r requirements-gpu.txt for CUDA versions
 streamlit run app.py
 ```
 
@@ -97,6 +100,7 @@ models/class_names.json
 If these files are missing, SortSnap falls back to demo mode.
 
 ## Training
+Dataset from: https://www.kaggle.com/datasets/mostafaabla/garbage-classification
 
 Data loaded as an ImageFolder-style directory:
 

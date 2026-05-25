@@ -6,6 +6,7 @@ from pathlib import Path
 
 # training script. To use:
 # python train.py --epochs 15 --batch_size 32 --lr 0.0002
+# train resnet18 classifier using transfer learning on specific dataset 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -37,7 +38,7 @@ def synchronize_if_cuda(device):
     if device.type == "cuda":
         torch.cuda.synchronize(device)
 
-
+# helper function to visualize training history (train vs validation accuracy)
 def save_accuracy_curve(history: list[dict], output_path: Path):
     epochs = [row["epoch"] for row in history]
     train_accuracy = [row["train_accuracy"] for row in history]
@@ -94,7 +95,7 @@ def run_epoch(model, dataloader, criterion, optimizer, device, train: bool):
 
     return total_loss / max(total, 1), correct / max(total, 1)
 
-
+# main training loop
 def main():
     args = parse_args()
     log_lines = []
@@ -102,6 +103,7 @@ def main():
     print_device_summary(device)
     pin_memory = device.type == "cuda"
 
+    # setup and load training and validation data from directory
     train_dataset = ImageFolder(DATA_DIR / "train", transform=get_train_transforms())
     val_dataset = ImageFolder(DATA_DIR / "val", transform=get_val_transforms())
 
@@ -120,6 +122,7 @@ def main():
         pin_memory=pin_memory,
     )
 
+    # setup the model, loss function, and optimizer
     model = build_model(
         num_classes=len(train_dataset.classes),
         freeze_backbone=FREEZE_BACKBONE,
@@ -131,6 +134,7 @@ def main():
         lr=args.lr,
     )
 
+    # create output directories
     MODEL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     RUN_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     best_val_accuracy = 0.0
@@ -138,6 +142,7 @@ def main():
     history = []
     epoch_durations = []
 
+    # main training loop
     for epoch in range(1, args.epochs + 1):
         synchronize_if_cuda(device)
         epoch_start_time = time.perf_counter()
@@ -174,6 +179,7 @@ def main():
             best_val_accuracy = val_accuracy
             torch.save(model.state_dict(), best_model_path)
 
+    # output training results
     with open(MODEL_OUTPUT_DIR / "class_names.json", "w", encoding="utf-8") as file:
         json.dump(train_dataset.classes, file, indent=2)
 
